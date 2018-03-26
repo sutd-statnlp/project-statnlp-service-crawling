@@ -3,6 +3,7 @@ package resource
 import (
 	"../api"
 	"../manager"
+	"../util"
 	"github.com/gin-gonic/gin"
 )
 
@@ -31,7 +32,8 @@ func InitTweetRoutes(router *gin.Engine) {
 		location := context.PostForm("location")
 		language := context.PostForm("language")
 		userID := context.PostForm("userId")
-		fileName := api.StartTwitterStream(keyword, location, userID, language)
+		maxMinute := context.PostForm("maxMinute")
+		fileName := api.StartTwitterStream(keyword, location, userID, language, util.StringToInteger(maxMinute))
 		body := TweetResponse{FileName: fileName, IsStreaming: true}
 		context.JSON(200, body)
 	})

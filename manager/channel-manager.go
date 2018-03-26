@@ -31,3 +31,8 @@ func (channelManager ChannelManager) StopChannel(key string) bool {
 	delete(channelManager.ChannelMap, key)
 	return true
 }
+
+// AddChannel .
+func (channelManager ChannelManager) AddChannel(key string, channel chan string) {
+	channelManager.ChannelMap[key] = channel
+}

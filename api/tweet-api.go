@@ -1,9 +1,9 @@
 package api
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
+	"time"
 
 	"../manager"
 	"../util"
@@ -24,10 +24,14 @@ func getClient() *twitter.Client {
 }
 
 // StartTwitterStream .
-func StartTwitterStream(keywords string, locations string, userIds string, languages string) string {
+func StartTwitterStream(keywords string, locations string, userIds string, languages string, maxMinute int) string {
 	fileName := util.InitTweetFile()
 	channel := stream(fileName, keywords, locations, userIds, languages, false)
-	manager.GetChannelManageInstance().ChannelMap[fileName] = channel
+	manager.GetChannelManageInstance().AddChannel(fileName, channel)
+	go func() {
+		time.Sleep(time.Duration(maxMinute+1) * time.Minute)
+		manager.GetChannelManageInstance().StopChannel(fileName)
+	}()
 	return fileName
 }
 
@@ -60,7 +64,6 @@ func stream(fileName string, keywords string, locations string, userIds string, 
 
 func saveTweet(fileName string, tweet *twitter.Tweet) {
 	timestamp := util.GetCurrentTimestamp()
-	fmt.Println("Timestamp ", timestamp, " of ", tweet.ID)
 	util.SaveTweetResult([]string{
 		timestamp,
 		tweet.IDStr,
