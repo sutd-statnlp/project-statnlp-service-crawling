@@ -1,6 +1,8 @@
 package resource
 
 import (
+	"fmt"
+
 	"../api"
 	"../manager"
 	"../util"
@@ -23,18 +25,23 @@ func InitTweetRoutes(router *gin.Engine) {
 			body := TweetResponse{FileName: fileName, IsStreaming: !isStopped}
 			context.JSON(200, body)
 		} else {
-			context.String(404, "Not Found")
+			context.JSON(400, util.InvalidFormData)
 		}
 	})
 
 	router.POST("/api/tweets/stream", func(context *gin.Context) {
-		keyword := context.PostForm("keyword")
-		location := context.PostForm("location")
-		language := context.PostForm("language")
-		userID := context.PostForm("userId")
 		maxMinute := context.PostForm("maxMinute")
-		fileName := api.StartTwitterStream(keyword, location, userID, language, util.StringToInteger(maxMinute))
-		body := TweetResponse{FileName: fileName, IsStreaming: true}
-		context.JSON(200, body)
+		fmt.Println(maxMinute)
+		if len(maxMinute) > 0 {
+			keyword := context.PostForm("keyword")
+			location := context.PostForm("location")
+			language := context.PostForm("language")
+			userID := context.PostForm("userId")
+			fileName := api.StartTwitterStream(keyword, location, userID, language, util.StringToInteger(maxMinute))
+			body := TweetResponse{FileName: fileName, IsStreaming: true}
+			context.JSON(200, body)
+		} else {
+			context.JSON(400, util.InvalidFormData)
+		}
 	})
 }
