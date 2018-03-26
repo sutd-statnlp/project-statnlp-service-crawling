@@ -21,11 +21,8 @@ func setupRoutes() *gin.Engine {
 		context.Next()
 	})
 
-	homeController := controller.HomeController{}
-	homeController.InitRoutes(router)
-
-	tweetResource := resource.TweetResource{}
-	tweetResource.InitRoutes(router)
+	controller.InitHomeRoutes(router)
+	resource.InitTweetRoutes(router)
 
 	return router
 }

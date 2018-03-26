@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"strconv"
+	"strings"
 
 	"../manager"
 	"../util"
@@ -22,32 +23,25 @@ func getClient() *twitter.Client {
 	return twitter.NewClient(httpClient)
 }
 
-// InitTwitterStream : test streaming.
-func InitTwitterStream(keywords []string, userIds []string, stallWarning bool) string {
+// StartTwitterStream .
+func StartTwitterStream(keywords string, locations string, userIds string, languages string) string {
 	fileName := util.InitTweetFile()
-	channel := StartTwitterStream(fileName, keywords, userIds, stallWarning)
-	<-channel
-	fmt.Println("Done channel ", fileName)
-	return fileName
-}
-
-// StartTwitterStreamWithKeywordAndUserID : start streaming.
-func StartTwitterStreamWithKeywordAndUserID(keyword string, userID string) string {
-	fileName := util.InitTweetFile()
-	channel := StartTwitterStream(fileName, []string{keyword}, []string{userID}, false)
+	channel := stream(fileName, keywords, locations, userIds, languages, false)
 	manager.GetChannelManageInstance().ChannelMap[fileName] = channel
 	return fileName
 }
 
 // StartTwitterStream .
-func StartTwitterStream(fileName string, keywords []string, userIds []string, stallWarning bool) chan string {
+func stream(fileName string, keywords string, locations string, userIds string, languages string, stallWarning bool) chan string {
 	channel := make(chan string)
 	go func() {
 		client := getClient()
 		params := &twitter.StreamFilterParams{
-			Track:         keywords,
+			Track:         strings.Split(keywords, ","),
 			StallWarnings: twitter.Bool(stallWarning),
-			Follow:        userIds,
+			Locations:     strings.Split(locations, ","),
+			Language:      strings.Split(languages, ","),
+			Follow:        strings.Split(userIds, ","),
 		}
 
 		demux := twitter.NewSwitchDemux()

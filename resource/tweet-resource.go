@@ -6,28 +6,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// TweetResource .
-type TweetResource struct {
-}
-
 // TweetResponse .
 type TweetResponse struct {
 	FileName    string
 	IsStreaming bool
 }
 
-// InitRoutes .
-func (TweetResource TweetResource) InitRoutes(router *gin.Engine) {
-	router.GET("/api/tweets/keyword/:keyword", func(context *gin.Context) {
-		keyword := context.Param("keyword")
-		if len(keyword) > 0 {
-			fileName := api.StartTwitterStreamWithKeywordAndUserID(keyword, "")
-			body := TweetResponse{FileName: fileName, IsStreaming: true}
-			context.JSON(200, body)
-		} else {
-			context.String(404, "Not Found")
-		}
-	})
+// InitTweetRoutes .
+func InitTweetRoutes(router *gin.Engine) {
 
 	router.POST("/api/tweets/stop", func(context *gin.Context) {
 		fileName := context.PostForm("fileName")
@@ -38,5 +24,15 @@ func (TweetResource TweetResource) InitRoutes(router *gin.Engine) {
 		} else {
 			context.String(404, "Not Found")
 		}
+	})
+
+	router.POST("/api/tweets/stream", func(context *gin.Context) {
+		keyword := context.PostForm("keyword")
+		location := context.PostForm("location")
+		language := context.PostForm("language")
+		userID := context.PostForm("userId")
+		fileName := api.StartTwitterStream(keyword, location, userID, language)
+		body := TweetResponse{FileName: fileName, IsStreaming: true}
+		context.JSON(200, body)
 	})
 }

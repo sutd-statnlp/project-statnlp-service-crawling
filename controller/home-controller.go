@@ -5,12 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// HomeController .
-type HomeController struct {
-}
-
-// InitRoutes .
-func (homeController HomeController) InitRoutes(router *gin.Engine) {
+// InitHomeRoutes .
+func InitHomeRoutes(router *gin.Engine) {
 	router.Use(static.Serve("/", static.LocalFile("./view", true)))
 	router.Use(static.Serve("/data", static.LocalFile("./data", true)))
 }
