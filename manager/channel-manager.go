@@ -24,15 +24,20 @@ func GetChannelManageInstance() *ChannelManager {
 // StopChannel .
 func (channelManager ChannelManager) StopChannel(key string) bool {
 	channel := channelManager.ChannelMap[key]
-	if channel == nil {
-		return false
+	if channel != nil {
+		<-channel
+		delete(channelManager.ChannelMap, key)
 	}
-	<-channel
-	delete(channelManager.ChannelMap, key)
 	return true
 }
 
 // AddChannel .
 func (channelManager ChannelManager) AddChannel(key string, channel chan string) {
 	channelManager.ChannelMap[key] = channel
+}
+
+// IsExisted .
+func (channelManager ChannelManager) IsExisted(key string) bool {
+	channel := channelManager.ChannelMap[key]
+	return channel != nil
 }

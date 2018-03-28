@@ -44,4 +44,15 @@ func InitTweetRoutes(router *gin.Engine) {
 			context.JSON(400, util.InvalidFormData)
 		}
 	})
+
+	router.GET("/api/tweets/channel", func(context *gin.Context) {
+		fileName := context.Query("fileName")
+		if len(fileName) > 0 {
+			isExisted := manager.GetChannelManageInstance().IsExisted(fileName)
+			body := TweetResponse{FileName: fileName, IsStreaming: isExisted}
+			context.JSON(200, body)
+		} else {
+			context.JSON(400, util.InvalidQuery)
+		}
+	})
 }
