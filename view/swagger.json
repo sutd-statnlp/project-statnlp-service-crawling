@@ -93,6 +93,33 @@
           }
         }
       }
+    },
+    "/api/tweets/channel" : {
+      "get" : {
+        "tags" : [ "tweets" ],
+        "summary" : "get crawling channel",
+        "description" : "get crawling channel",
+        "operationId" : "getCrawlingChannel",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "fileName",
+          "description" : "File Name",
+          "required" : true,
+          "type" : "string",
+          "example" : "20180326145515-tweets.csv"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "stop crawling"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "409" : {
+            "description" : "an existing item already exists"
+          }
+        }
+      }
     }
   }
 }
