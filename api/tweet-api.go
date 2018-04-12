@@ -5,21 +5,17 @@ import (
 	"strings"
 	"time"
 
+	"../config"
 	"../manager"
 	"../util"
 	"github.com/dghubble/go-twitter/twitter"
 	"github.com/dghubble/oauth1"
 )
 
-const accessToken string = "830802762753417218-YqYSKPmmn1wVvKItENWPhHF8f1uDjcJ"
-const accessSecret string = "2SJLtyeHRqc23jtEnOKM3eWcTbL9CUHjsncb4CgCpR1HR"
-const consumeKey string = "YUXDDDmE0AvI8e0diUdsbJ7ph"
-const consumeSecret string = "vNbYpJjJzy5ZdqVZlqqk1MKlspviQOIj1Txnuw69rUfbClkdy5"
-
 func getClient() *twitter.Client {
-	config := oauth1.NewConfig(consumeKey, consumeSecret)
-	token := oauth1.NewToken(accessToken, accessSecret)
-	httpClient := config.Client(oauth1.NoContext, token)
+	oAuthConfig := oauth1.NewConfig(config.TwitteConsumeKey, config.TwitteConsumeSecret)
+	token := oauth1.NewToken(config.TwitterAccessToken, config.TwitteAccessSecret)
+	httpClient := oAuthConfig.Client(oauth1.NoContext, token)
 	return twitter.NewClient(httpClient)
 }
 
