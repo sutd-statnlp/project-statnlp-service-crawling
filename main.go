@@ -23,6 +23,7 @@ func setupRoutes() *gin.Engine {
 
 	controller.InitHomeRoutes(router)
 	resource.InitTweetRoutes(router)
+	resource.InitAclRoutes(router)
 
 	return router
 }
