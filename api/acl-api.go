@@ -50,7 +50,7 @@ func GetLastAuthor(authors string) string {
 // GetAuthorsFromString .
 func GetAuthorsFromString(authorsRow string) []string {
 	var result []string
-	result = strings.Split(authorsRow, ",")
+	result = strings.Split(authorsRow, ", ")
 	splitString := strings.Split(result[len(result)-1], "and")
 	result = result[:len(result)-1]
 	for _, author := range splitString {

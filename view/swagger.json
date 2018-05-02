@@ -1,122 +1,165 @@
 {
-  "swagger" : "2.0",
-  "info" : {
-    "description" : "StatNLP Crawling Service",
-    "version" : "1.0.0",
-    "title" : "StatNLP Crawling service"
+  "swagger": "2.0",
+  "info": {
+    "description": "StatNLP Crawling Service",
+    "version": "1.0.0",
+    "title": "StatNLP Crawling service"
   },
-  "basePath" : "/",
-  "tags" : [ {
-    "name" : "tweets",
-    "description" : "Tweets crawling"
-  } ],
-  "schemes" : [ "http" ],
-  "paths" : {
-    "/api/tweets/stream" : {
-      "post" : {
-        "tags" : [ "tweets" ],
-        "summary" : "crawl tweets",
-        "description" : "crawl tweets",
-        "operationId" : "crawlTweets",
-        "parameters" : [ {
-          "in" : "formData",
-          "name" : "keyword",
-          "description" : "Keyword",
-          "required" : false,
-          "type" : "string",
-          "example" : "a"
+  "basePath": "/",
+  "tags": [{
+    "name": "tweets",
+    "description": "Tweets crawling"
+  }, {
+    "name": "authors",
+    "description": "ACL 2018 Authors who has papers accepted"
+  }],
+  "schemes": ["http"],
+  "paths": {
+    "/api/tweets/stream": {
+      "post": {
+        "tags": ["tweets"],
+        "summary": "crawl tweets",
+        "description": "crawl tweets",
+        "operationId": "crawlTweets",
+        "parameters": [{
+          "in": "formData",
+          "name": "keyword",
+          "description": "Keyword",
+          "required": false,
+          "type": "string",
+          "example": "a"
         }, {
-          "in" : "formData",
-          "name" : "location",
-          "description" : "Location",
-          "required" : false,
-          "type" : "string",
-          "example" : ""
+          "in": "formData",
+          "name": "location",
+          "description": "Location",
+          "required": false,
+          "type": "string",
+          "example": ""
         }, {
-          "in" : "formData",
-          "name" : "language",
-          "description" : "Language",
-          "required" : false,
-          "type" : "string",
-          "example" : ""
+          "in": "formData",
+          "name": "language",
+          "description": "Language",
+          "required": false,
+          "type": "string",
+          "example": ""
         }, {
-          "in" : "formData",
-          "name" : "userId",
-          "description" : "Follow UserID",
-          "required" : false,
-          "type" : "string",
-          "example" : ""
+          "in": "formData",
+          "name": "userId",
+          "description": "Follow UserID",
+          "required": false,
+          "type": "string",
+          "example": ""
         }, {
-          "in" : "formData",
-          "name" : "maxMinute",
-          "description" : "Maximum Minutes",
-          "required" : true,
-          "type" : "number",
-          "example" : 1
-        } ],
-        "responses" : {
-          "201" : {
-            "description" : "start crawling"
+          "in": "formData",
+          "name": "maxMinute",
+          "description": "Maximum Minutes",
+          "required": true,
+          "type": "number",
+          "example": 1
+        }],
+        "responses": {
+          "201": {
+            "description": "start crawling"
           },
-          "400" : {
-            "description" : "invalid input, object invalid"
+          "400": {
+            "description": "invalid input, object invalid"
           },
-          "409" : {
-            "description" : "an existing item already exists"
+          "409": {
+            "description": "an existing item already exists"
           }
         }
       }
     },
-    "/api/tweets/stop" : {
-      "post" : {
-        "tags" : [ "tweets" ],
-        "summary" : "stop crawling tweets",
-        "description" : "stop crawling tweets",
-        "operationId" : "stopCrawlingTweets",
-        "parameters" : [ {
-          "in" : "formData",
-          "name" : "fileName",
-          "description" : "File Name",
-          "required" : true,
-          "type" : "string",
-          "example" : "20180326145515-tweets.csv"
-        } ],
-        "responses" : {
-          "201" : {
-            "description" : "stop crawling"
+    "/api/tweets/stop": {
+      "post": {
+        "tags": ["tweets"],
+        "summary": "stop crawling tweets",
+        "description": "stop crawling tweets",
+        "operationId": "stopCrawlingTweets",
+        "parameters": [{
+          "in": "formData",
+          "name": "fileName",
+          "description": "File Name",
+          "required": true,
+          "type": "string",
+          "example": "20180326145515-tweets.csv"
+        }],
+        "responses": {
+          "201": {
+            "description": "stop crawling"
           },
-          "400" : {
-            "description" : "invalid input, object invalid"
+          "400": {
+            "description": "invalid input, object invalid"
           },
-          "409" : {
-            "description" : "an existing item already exists"
+          "409": {
+            "description": "an existing item already exists"
           }
         }
       }
     },
-    "/api/tweets/channel" : {
-      "get" : {
-        "tags" : [ "tweets" ],
-        "summary" : "get crawling channel",
-        "description" : "get crawling channel",
-        "operationId" : "getCrawlingChannel",
-        "parameters" : [ {
-          "in" : "query",
-          "name" : "fileName",
-          "description" : "File Name",
-          "required" : true,
-          "type" : "string",
-          "example" : "20180326145515-tweets.csv"
-        } ],
-        "responses" : {
-          "201" : {
-            "description" : "stop crawling"
+    "/api/tweets/channel": {
+      "get": {
+        "tags": ["tweets"],
+        "summary": "get crawling channel",
+        "description": "get crawling channel",
+        "operationId": "getCrawlingChannel",
+        "parameters": [{
+          "in": "query",
+          "name": "fileName",
+          "description": "File Name",
+          "required": true,
+          "type": "string",
+          "example": "20180326145515-tweets.csv"
+        }],
+        "responses": {
+          "201": {
+            "description": "stop crawling"
           },
-          "400" : {
-            "description" : "invalid input, object invalid"
+          "400": {
+            "description": "invalid input, object invalid"
           },
-          "409" : {
-            "description" : "an existing item already exists"
+          "409": {
+            "description": "an existing item already exists"
+          }
+        }
+      }
+    },
+    "/api/acl/authors/accepted": {
+      "get": {
+        "tags": ["authors"],
+        "summary": "get all ACL authors who has papers accepted",
+        "description": "get all ACL authors who has papers accepted",
+        "operationId": "getAuthorsAccepted",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "got authors"
+          },
+          "400": {
+            "description": "error"
+          },
+          "409": {
+            "description": "error"
+          }
+        }
+      }
+    },
+    "/api/acl/authors/accepted/last": {
+      "get": {
+        "tags": ["authors"],
+        "summary": "get last ACL authors who has papers accepted",
+        "description": "get last ACL authors who has papers accepted",
+        "operationId": "getAuthorsAcceptedLast",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "got authors"
+          },
+          "400": {
+            "description": "error"
+          },
+          "409": {
+            "description": "error"
           }
         }
       }
