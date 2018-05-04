@@ -16,4 +16,9 @@ func InitAclRoutes(router *gin.Engine) {
 		context.Header("Content-Type", "application/json; charset=utf-8")
 		context.JSON(200, authorsRows)
 	})
+	router.GET("/api/acl/authors/accepted/last/unique", func(context *gin.Context) {
+		authorsRows := api.StartCrawlACLLastUniqueAuthorsAccepted()
+		context.Header("Content-Type", "application/json; charset=utf-8")
+		context.JSON(200, authorsRows)
+	})
 }

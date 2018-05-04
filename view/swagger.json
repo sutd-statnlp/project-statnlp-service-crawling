@@ -163,6 +163,26 @@
           }
         }
       }
+    },
+    "/api/acl/authors/accepted/last/unique": {
+      "get": {
+        "tags": ["authors"],
+        "summary": "get last unique ACL authors who has papers accepted",
+        "description": "get last unique ACL authors who has papers accepted",
+        "operationId": "getAuthorsAcceptedLastUnique",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "got authors"
+          },
+          "400": {
+            "description": "error"
+          },
+          "409": {
+            "description": "error"
+          }
+        }
+      }
     }
   }
 }
