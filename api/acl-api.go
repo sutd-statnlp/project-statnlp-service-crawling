@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/gocolly/colly"
@@ -35,6 +36,20 @@ func StartCrawlACLLastAuthorsAccepted() []string {
 	return RemoveDuplicateInSlice(authors)
 }
 
+// StartCrawlACLUniqueAuthorsAccepted .
+func StartCrawlACLUniqueAuthorsAccepted() []string {
+	collector := colly.NewCollector()
+	var authors []string
+	collector.OnHTML(".listing", func(e *colly.HTMLElement) {
+		author := GetUniqueAuthor(e.ChildText(".paper-authors"))
+		if len(author) > 0 {
+			authors = append(authors, author)
+		}
+	})
+	collector.Visit(url)
+	return RemoveDuplicateInSlice(authors)
+}
+
 // StartCrawlACLLastUniqueAuthorsAccepted .
 func StartCrawlACLLastUniqueAuthorsAccepted() []string {
 	collector := colly.NewCollector()
@@ -57,15 +72,24 @@ func GetLastAuthor(authors string) string {
 		result = splitString[1]
 	} else {
 		result = splitString[0]
+		fmt.Println(result)
 	}
 	return strings.TrimSpace(result)
 }
 
 // GetLastUniqueAuthor .
 func GetLastUniqueAuthor(authors string) string {
-	splitString := strings.Split(authors, "and")
-	if len(splitString) == 1 {
-		return splitString[0]
+	if !strings.Contains(authors, ",") && strings.Contains(authors, "and") {
+		result := strings.Split(authors, "and")[1]
+		return strings.TrimSpace(result)
+	}
+	return ""
+}
+
+// GetUniqueAuthor .
+func GetUniqueAuthor(authors string) string {
+	if !strings.Contains(authors, "and") {
+		return authors
 	}
 	return ""
 }

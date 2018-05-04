@@ -164,6 +164,26 @@
         }
       }
     },
+    "/api/acl/authors/accepted/unique": {
+      "get": {
+        "tags": ["authors"],
+        "summary": "get unique ACL authors who has papers accepted",
+        "description": "get unique ACL authors who has papers accepted",
+        "operationId": "getAuthorsAcceptedUnique",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "got authors"
+          },
+          "400": {
+            "description": "error"
+          },
+          "409": {
+            "description": "error"
+          }
+        }
+      }
+    },
     "/api/acl/authors/accepted/last/unique": {
       "get": {
         "tags": ["authors"],
